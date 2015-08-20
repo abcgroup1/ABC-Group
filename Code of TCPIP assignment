@@ -1,0 +1,41 @@
+// ConsoleApplication6.cpp : Defines the entry point for the console application.
+
+#include <iostream>
+#include <cstdio>
+#include <cstring> 
+
+int main() 
+{
+      // to connect the ifconfig file
+      FILE * fp = popen("/sbin/ifconfig eth0", "r");
+      if (fp) 
+      {
+            //the condition set for the only ip address		
+		          char *a=NULL, *b; size_t c;
+
+              while ((getline(&a, &c, fp) > 0) && a)
+		          {  
+					          //to find the inet out of ifconfig(network mask, broadcast address and inet address)
+                      if (a = strstr(a, "inet ")) 
+                      {
+                            a+=5;
+						          }
+				   
+						        //to make the ip address written with ':'
+                      else if (a = strchr(a, ':')) 
+                      {
+                            ++a;
+							        }
+							      // the condition of ' ' met, searching will stop and the result is showed
+							        else if (b = strchr(a, ' ')) 
+							        {
+                            *b='\0';
+                            printf("Retrieved Local IP Address: %s\n", a);
+                      }
+                        
+                  
+              }
+      }
+        pclose(fp);
+        return 0;
+}
